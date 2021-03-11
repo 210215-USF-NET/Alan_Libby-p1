@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using StoreModels;
 
 namespace StoreDL
 {
+    /// <summary>
+    /// EF Core DbContext for code-first connection
+    /// </summary>
     public class StoreContext : DbContext
     {
         public StoreContext(DbContextOptions options) : base(options)

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace StoreModels
 {
+    /// <summary>
+    /// Product model stores details about a specific product that can be sold at locations
+    /// </summary>
     public class Product
     {
         private string productName;
@@ -19,5 +23,7 @@ namespace StoreModels
             }
         }
         public decimal ProductPrice { get; set; }
+        public List<Inventory> Inventories { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

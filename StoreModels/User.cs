@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreModels
 {
+    /// <summary>
+    /// User model stores details about a customer or manager
+    /// </summary>
     public class User
     {
         private string userName;
@@ -23,5 +23,6 @@ namespace StoreModels
             }
         }
         public bool isManager { get; set; }
+        public List<Order> Orders { get; set; }
     }
 }
