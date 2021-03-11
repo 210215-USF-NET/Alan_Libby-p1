@@ -61,6 +61,23 @@ namespace StoreDL
             // TODO: Log success
             return true;
         }
+        public bool AddProduct(Product product)
+        {
+            try
+            {
+                ctx.Products.Add(product);
+                ctx.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                //TODO: Log failure
+                Console.WriteLine("ERROR: Failed to create a new product");
+                Console.WriteLine(e.StackTrace);
+                return false;
+            }
+            // TODO: Log success
+            return true;
+        }
         public bool SetLocationInventory(Product product, Location location, int n, bool delta)
         {
             Inventory inv = ctx.Inventories.FirstOrDefault(inv => inv.ProductId == product.ProductId && inv.LocationId == location.LocationId);

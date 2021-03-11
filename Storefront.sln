@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreDL", "StoreDL\StoreDL.csproj", "{BC1945EB-7028-4726-8B0B-7ACE4EEE5702}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreMVC", "StoreMVC\StoreMVC.csproj", "{3E73D1D2-CEBE-4387-AC15-00BAB0ED8B21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreMVC", "StoreMVC\StoreMVC.csproj", "{3E73D1D2-CEBE-4387-AC15-00BAB0ED8B21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreBL", "StoreBL\StoreBL.csproj", "{39027934-AE55-4D90-BAB5-8C529DC382C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreBL", "StoreBL\StoreBL.csproj", "{39027934-AE55-4D90-BAB5-8C529DC382C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreModels", "StoreModels\StoreModels.csproj", "{0547BA3B-47EB-4715-B412-3604297478A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreModels", "StoreModels\StoreModels.csproj", "{0547BA3B-47EB-4715-B412-3604297478A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

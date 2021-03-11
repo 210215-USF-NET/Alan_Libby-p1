@@ -39,6 +39,14 @@ namespace StoreBL
         {
             return repo.GetUsers(user => true);
         }
+        public string CreateProduct(Product product)
+        {
+            if (!repo.AddProduct(product))
+            {
+                return "Error: Database write failed";
+            }
+            return null;
+        }
         public List<Product> GetProducts()
         {
             return repo.GetProducts(product => true);
