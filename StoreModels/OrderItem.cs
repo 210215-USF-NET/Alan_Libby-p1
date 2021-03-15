@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StoreModels
 {
@@ -19,6 +20,16 @@ namespace StoreModels
                     throw new ArgumentException($"Cannot set OrderItem.Quantity to <= zero. (Tried to set to {value})");
                 }
                 quantity = value;
+            }
+        }
+
+        [NotMapped]
+        public decimal TotalPrice
+        {
+            get
+            {
+                if (Product == null) return 0;
+                return quantity * Product.ProductPrice;
             }
         }
     }

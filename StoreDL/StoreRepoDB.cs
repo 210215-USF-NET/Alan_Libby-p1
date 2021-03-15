@@ -32,9 +32,13 @@ namespace StoreDL
         {
             return ctx.Locations.Select(location => location).Where(where).ToList();
         }
+        public Location GetLocationById(int locationId)
+        {
+            return ctx.Locations.AsNoTracking().FirstOrDefault(location => location.LocationId == locationId);
+        }
         public List<Order> GetOrders(Func<Order, bool> where)
         {
-            return ctx.Orders.Include("OrderItmes").Select(order => order).Where(where).ToList();
+            return ctx.Orders.Include(order => order.orderItems).Include(order => order.Customer).AsNoTracking().Select(order => order).Where(where).ToList();
         }
         public List<Product> GetProductsAtLocation(Location location, Func<Product, bool> where)
         {
@@ -201,7 +205,7 @@ namespace StoreDL
             }
             return true;
         }
-        private Order createCart(int userId)
+        public Order createCart(int userId)
         {
             Order cart = new Order();
             cart.UserId = userId;

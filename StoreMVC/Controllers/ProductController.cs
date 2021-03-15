@@ -30,7 +30,6 @@ namespace StoreMVC.Controllers
 
         public IActionResult Details(int id)
         {
-            System.Diagnostics.Debug.WriteLine($"Details for product {id}");
             Product product = storeBL.GetProductById(id);
             if (product == null) return NotFound();
             ShowProductViewModel productVM = new ShowProductViewModel();

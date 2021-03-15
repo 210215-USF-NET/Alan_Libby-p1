@@ -1,0 +1,52 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<StoreModels.Order>
+
+@{
+    ViewData["Title"] = "Previous Orders";
+}
+
+<h1>Previous Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Checkout Time
+            </th>
+            <th>
+                Total Price
+            </th>
+            @if (Context.Session.GetInt32("IsManager") != null && Context.Session.GetInt32("IsManager") != 0)
+            {
+                <th>
+                    User
+                </th>
+            }
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.CheckoutTimestamp
+                </td>
+                <td>
+                    @item.TotalPrice.ToString("C")
+                </td>
+                @if (Context.Session.GetInt32("IsManager") != null && Context.Session.GetInt32("IsManager") != 0)
+                {
+                    <td>
+                        @item.Customer.UserName
+                    </td>
+                }
+                <td>
+                    @* Helpers are also used to tie your views to particular actions in controllers *@
+                    @* This is an html helper *@
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

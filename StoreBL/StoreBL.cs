@@ -69,5 +69,56 @@ namespace StoreBL
         //{
         //    return repo.SetLocationInventory(productId, locationId, n, delta);
         //}
+        public List<Order> GetAllOrders()
+        {
+            List<Order> orders = repo.GetOrders(order => order.CheckoutTimestamp != null);
+            foreach (Order order in orders)
+            {
+                foreach(OrderItem oi in order.orderItems)
+                {
+                    oi.Product = repo.GetProductById(oi.ProductId);
+                    oi.Location = repo.GetLocationById(oi.LocationId);
+                }
+            }
+            return orders;
+        }
+        public List<Order> GetUserOrders(int userId)
+        {
+            List<Order> orders = repo.GetOrders(order => order.UserId == userId && order.CheckoutTimestamp != null);
+            foreach (Order order in orders)
+            {
+                foreach (OrderItem oi in order.orderItems)
+                {
+                    oi.Product = repo.GetProductById(oi.ProductId);
+                    oi.Location = repo.GetLocationById(oi.LocationId);
+                }
+            }
+            return orders;
+        }
+        public Order GetCart(int userId)
+        {
+            List<Order> orders = repo.GetOrders(order => order.UserId == userId && order.CheckoutTimestamp == null);
+            if (orders.Count == 0)
+            {
+                return repo.createCart(userId);
+            }
+            foreach (OrderItem oi in orders[0].orderItems)
+            {
+                oi.Product = repo.GetProductById(oi.ProductId);
+                oi.Location = repo.GetLocationById(oi.LocationId);
+            }
+            return orders[0];
+        }
+        public Order GetOrderById(int orderId)
+        {
+            List<Order> orders = repo.GetOrders(order => order.OrderId == orderId);
+            if (orders.Count == 0) return null;
+            foreach (OrderItem oi in orders[0].orderItems)
+            {
+                oi.Product = repo.GetProductById(oi.ProductId);
+                oi.Location = repo.GetLocationById(oi.LocationId);
+            }
+            return orders[0];
+        }
     }
 }

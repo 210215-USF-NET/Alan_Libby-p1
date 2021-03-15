@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 
 namespace StoreModels
@@ -13,5 +14,20 @@ namespace StoreModels
         public User Customer { get; set; }
         public DateTime? CheckoutTimestamp { get; set; }
         public List<OrderItem> orderItems { get; set; }
+
+        [NotMapped]
+        public decimal TotalPrice
+        {
+            get
+            {
+                if (orderItems == null) return 0;
+                decimal x = 0;
+                foreach (OrderItem oi in orderItems)
+                {
+                    x += oi.TotalPrice;
+                }
+                return x;
+            }
+        }
     }
 }
