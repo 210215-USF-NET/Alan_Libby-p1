@@ -63,6 +63,7 @@ namespace StoreMVC.Controllers
                 }
                 HttpContext.Session.SetString("UserName", user.UserName);
                 HttpContext.Session.SetInt32("UserId", user.UserId);
+                HttpContext.Session.SetInt32("IsManager", user.isManager ? 1 : 0);
                 return Redirect("/");
             }
             return BadRequest("Invalid model state");
@@ -72,6 +73,7 @@ namespace StoreMVC.Controllers
         {
             HttpContext.Session.Remove("UserName");
             HttpContext.Session.Remove("UserId");
+            HttpContext.Session.Remove("IsManager");
             return RedirectToAction("Login");
         }
     }

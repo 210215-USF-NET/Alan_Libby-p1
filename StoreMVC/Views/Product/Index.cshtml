@@ -1,4 +1,5 @@
-﻿@model IEnumerable<StoreMVC.Models.ShowProductViewModel>
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<StoreMVC.Models.ShowProductViewModel>
 
 @{
     ViewData["Title"] = "Products";
@@ -6,10 +7,12 @@
 
 <h1>Products</h1>
 
-@*TODO: Make this link just for managers*@
+@if (Context.Session.GetInt32("IsManager") == 1)
+{
 <p>
     <a asp-action="Create">Add a new product</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>
