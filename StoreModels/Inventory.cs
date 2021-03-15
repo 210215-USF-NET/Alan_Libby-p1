@@ -22,6 +22,7 @@ namespace StoreModels
                 {
                     throw new ArgumentException($"Cannot set Inventory.Quantity to <= zero. (Tried to set to {value})");
                 }
+                quantity = value;
             }
         }
     }

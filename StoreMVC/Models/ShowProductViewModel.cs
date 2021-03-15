@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace StoreMVC.Models
@@ -14,5 +15,6 @@ namespace StoreMVC.Models
         public decimal ProductPrice { get; set; }
 
         public int ProductId { get; set; }
+        public List<InventoryViewModel> Inventories;
     }
 }

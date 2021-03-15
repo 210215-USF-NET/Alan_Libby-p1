@@ -24,6 +24,10 @@ namespace StoreDL
         {
             return ctx.Products.Select(product => product).Where(where).ToList();
         }
+        public Product GetProductById(int id)
+        {
+            return ctx.Products.Where(p => p.ProductId == id).Include(p => p.Inventories).ThenInclude(inv => inv.Location).FirstOrDefault();
+        }
         public List<Location> GetLocations(Func<Location, bool> where)
         {
             return ctx.Locations.Select(location => location).Where(where).ToList();
@@ -78,21 +82,23 @@ namespace StoreDL
             // TODO: Log success
             return true;
         }
-        public bool SetLocationInventory(Product product, Location location, int n, bool delta)
+        public bool SetLocationInventory(int productId, int locationId, int n, bool delta)
         {
-            Inventory inv = ctx.Inventories.FirstOrDefault(inv => inv.ProductId == product.ProductId && inv.LocationId == location.LocationId);
+            Inventory inv = ctx.Inventories.FirstOrDefault(inv => inv.ProductId == productId && inv.LocationId == locationId);
             if (inv == null)
             {
                 inv = new Inventory();
-                inv.LocationId = location.LocationId;
-                inv.ProductId = product.ProductId;
-                inv.Quantity = 0;
+                inv.LocationId = locationId;
+                inv.ProductId = productId;
                 ctx.Inventories.Add(inv);
             }
             int oldQuantity = inv.Quantity;
             if (delta)
             {
-                inv.Quantity += n;
+                System.Diagnostics.Debug.WriteLine($"Inventory before change: {inv.Quantity}");
+                //inv.Quantity += n;
+                inv.Quantity = inv.Quantity + n;
+                System.Diagnostics.Debug.WriteLine($"Inventory after change: {inv.Quantity}");
             }
             else
             {
@@ -118,20 +124,20 @@ namespace StoreDL
             // TODO: Log success
             return true;
         }
-        public bool AddItemToCart(User user, Product product, Location location, int n, bool delta)
+        public bool AddItemToCart(int userId, int productId, int locationId, int n, bool delta)
         {
-            Order cart = ctx.Orders.Include("OrderItems").FirstOrDefault(order => order.CheckoutTimestamp == null && order.UserId == user.UserId);
+            Order cart = ctx.Orders.Include(order => order.orderItems).FirstOrDefault(order => order.CheckoutTimestamp == null && order.UserId == userId);
             if (cart == null)
             {
-                cart = createCart(user);
+                cart = createCart(userId);
             }
-            OrderItem item = cart.orderItems.Find(item => item.ProductId == product.ProductId);
+            OrderItem item = cart.orderItems.Find(item => item.ProductId == productId);
             if (item == null)
             {
                 item = new OrderItem();
-                item.LocationId = location.LocationId;
-                item.ProductId = product.ProductId;
-                item.Quantity = 0;
+                item.LocationId = locationId;
+                item.ProductId = productId;
+                //item.Quantity = 0;
             }
             if (delta)
             {
@@ -195,11 +201,12 @@ namespace StoreDL
             }
             return true;
         }
-        private Order createCart(User user)
+        private Order createCart(int userId)
         {
             Order cart = new Order();
-            cart.UserId = user.UserId;
+            cart.UserId = userId;
             cart.CheckoutTimestamp = null;
+            cart.orderItems = new List<OrderItem>();
             ctx.Orders.Add(cart);
             return cart;
         }

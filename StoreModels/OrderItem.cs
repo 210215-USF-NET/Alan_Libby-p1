@@ -18,6 +18,7 @@ namespace StoreModels
                 if (value <= 0) {
                     throw new ArgumentException($"Cannot set OrderItem.Quantity to <= zero. (Tried to set to {value})");
                 }
+                quantity = value;
             }
         }
     }

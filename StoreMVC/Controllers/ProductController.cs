@@ -28,6 +28,51 @@ namespace StoreMVC.Controllers
             }));
         }
 
+        public IActionResult Details(int id)
+        {
+            System.Diagnostics.Debug.WriteLine($"Details for product {id}");
+            Product product = storeBL.GetProductById(id);
+            if (product == null) return NotFound();
+            ShowProductViewModel productVM = new ShowProductViewModel();
+            productVM.ProductId = product.ProductId;
+            productVM.ProductName = product.ProductName;
+            productVM.ProductPrice = product.ProductPrice;
+            productVM.Inventories = new List<InventoryViewModel>();
+            foreach (Inventory inv in product.Inventories)
+            {
+                InventoryViewModel invVM = new InventoryViewModel();
+                LocationViewModel locVM = new LocationViewModel();
+                locVM.LocationId = inv.Location.LocationId;
+                locVM.LocationName = inv.Location.LocationName;
+                invVM.Location = locVM;
+                invVM.Quantity = inv.Quantity;
+                productVM.Inventories.Add(invVM);
+            }
+            return View(productVM);
+        }
+
+        [HttpGet]
+        public IActionResult AddToCart(UpdateInventoryViewModel vm)
+        {
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult AddToCartPost(UpdateInventoryViewModel vm)
+        {
+            System.Diagnostics.Debug.WriteLine("Yeet");
+            if (ModelState.IsValid)
+            {
+                System.Diagnostics.Debug.WriteLine("Valid");
+                if (HttpContext.Session.GetString("UserName") == null)
+                    return Redirect("/User/Login");
+                if (!storeBL.AddItemToCart((int)HttpContext.Session.GetInt32("UserId"), vm.ProductId, vm.LocationId, vm.Quantity))
+                    return NotFound();
+                return Redirect($"/Product/Details/{vm.ProductId}");
+            }
+            return RedirectToAction("Index");
+        }
+
         [HttpGet]
         public IActionResult Create()
         {

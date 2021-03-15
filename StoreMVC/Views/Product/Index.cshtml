@@ -33,12 +33,12 @@
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductPrice)
+                    @item.ProductPrice.ToString("C")
                 </td>
                 <td>
                     @* Helpers are also used to tie your views to particular actions in controllers *@
                     @* This is an html helper *@
-                    @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ProductId })
                 </td>
             </tr>
         }

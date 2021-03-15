@@ -51,9 +51,23 @@ namespace StoreBL
         {
             return repo.GetProducts(product => true);
         }
+        public Product GetProductById(int id)
+        {
+            return repo.GetProductById(id);
+        }
         public List<Inventory> GetLocationsOfProduct(int productId)
         {
             return repo.GetLocationsOfProduct(productId, loc => true);
         }
+        public bool AddItemToCart(int userId, int productId, int locationId, int n)
+        {
+            if (!repo.SetLocationInventory(productId, locationId, -n, true))
+                return false;
+            return repo.AddItemToCart(userId, productId, locationId, n, true);
+        }
+        //public bool SetLocationInventory(int productId, int locationId, int n, bool delta)
+        //{
+        //    return repo.SetLocationInventory(productId, locationId, n, delta);
+        //}
     }
 }
