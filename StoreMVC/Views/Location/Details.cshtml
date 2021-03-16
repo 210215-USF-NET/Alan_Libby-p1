@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Http
+@model StoreModels.Location
+
+@{
+    ViewData["Title"] = "Location Details";
+}
+
+<h1>@Model.LocationName</h1>
+<h6>@Model.LocationAddress</h6>
+
+<hr/>
+<p>This location has the following products available</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Available Quantity
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Inventories)
+        {
+            <form asp-action="AddToCart">
+                <tr>
+                    <td>
+                        @item.Product.ProductName
+                    </td>
+                    <td>
+                        @item.Quantity
+                    </td>
+                    <td><a href="/Product/AddToCart?LocationId=@Model.LocationId&ProductId=@item.ProductId&Quantity=1">Add To Cart</a></td>
+                    <td>[add to cart | restock]</td>
+                </tr>
+            </form>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<StoreModels.Location>
+
+@{
+    ViewData["Title"] = "Locations";
+}
+
+<h1>Locations</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Location Name
+            </th>
+            <th>
+                Location Address
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.LocationName
+                </td>
+                <td>
+                    @item.LocationAddress
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.LocationId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

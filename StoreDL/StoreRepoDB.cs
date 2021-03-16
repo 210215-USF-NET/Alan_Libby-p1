@@ -35,7 +35,7 @@ namespace StoreDL
         }
         public Location GetLocationById(int locationId)
         {
-            return ctx.Locations.AsNoTracking().FirstOrDefault(location => location.LocationId == locationId);
+            return ctx.Locations.Include(loc => loc.Inventories).ThenInclude(inv => inv.Product).AsNoTracking().FirstOrDefault(location => location.LocationId == locationId);
         }
         public List<Order> GetOrders(Func<Order, bool> where)
         {

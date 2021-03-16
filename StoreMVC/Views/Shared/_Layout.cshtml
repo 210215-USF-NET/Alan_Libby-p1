@@ -26,6 +26,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Location" asp-action="Index">Locations</a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav" style="justify-self: flex-end">
                         @if (Context.Session.GetString("UserName") == null)

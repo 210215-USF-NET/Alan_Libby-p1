@@ -55,6 +55,14 @@ namespace StoreBL
         {
             return repo.GetProductById(id);
         }
+        public List<Location> GetLocations()
+        {
+            return repo.GetLocations(loc => true);
+        }
+        public Location GetLocationById(int id)
+        {
+            return repo.GetLocationById(id);
+        }
         public List<Inventory> GetLocationsOfProduct(int productId)
         {
             return repo.GetLocationsOfProduct(productId, loc => true);
