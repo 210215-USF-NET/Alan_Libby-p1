@@ -31,5 +31,15 @@ namespace StoreMVC.Controllers
             if (HttpContext.Session.GetString("UserName") == null) return Redirect("/User/Login");
             return View(storeBL.GetCart((int)HttpContext.Session.GetInt32("UserId")));
         }
+
+        [HttpPost]
+        public IActionResult Cart(Order order)
+        {
+            if (HttpContext.Session.GetInt32("UserId") == null)
+                return Redirect("/User/Login");
+            if (storeBL.CheckOut((int)HttpContext.Session.GetInt32("UserId")))
+                return Redirect("/");
+            throw new Exception("Failed to check out");
+        }
     }
 }

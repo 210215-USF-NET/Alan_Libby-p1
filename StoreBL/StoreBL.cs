@@ -120,5 +120,9 @@ namespace StoreBL
             }
             return orders[0];
         }
+        public bool CheckOut(int userId)
+        {
+            return repo.CheckOut(userId);
+        }
     }
 }

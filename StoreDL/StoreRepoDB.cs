@@ -166,9 +166,9 @@ namespace StoreDL
             // TODO: Log success
             return true;
         }
-        public bool CheckOut(User user)
+        public bool CheckOut(int userId)
         {
-            Order cart = ctx.Orders.FirstOrDefault(order => order.CheckoutTimestamp == null && order.UserId == user.UserId);
+            Order cart = ctx.Orders.FirstOrDefault(order => order.CheckoutTimestamp == null && order.UserId == userId);
             if (cart == null)
             {
                 // TODO: Log error

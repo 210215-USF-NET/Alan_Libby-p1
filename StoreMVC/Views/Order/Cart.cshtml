@@ -34,22 +34,28 @@
         @foreach (var item in Model.orderItems)
         {
             <tr>
-                <th>
+                <td>
                     @item.Product.ProductName
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.Quantity
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.Product.ProductPrice.ToString("C")
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.TotalPrice.ToString("C")
-                </th>
-                <th>
+                </td>
+                <td>
                     @item.Location.LocationName
-                </th>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+<hr/>
+<form asp-action="Cart">
+    <div class="form-group">
+        <input disabled="@(Model.orderItems.Count == 0)" type="submit" value="Check Out" class="btn btn-primary" />
+    </div>
+</form>
