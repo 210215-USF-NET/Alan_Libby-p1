@@ -73,6 +73,10 @@ namespace StoreBL
                 return false;
             return repo.AddItemToCart(userId, productId, locationId, n, true);
         }
+        public bool SetLocationInventory(int productId, int locationId, int n, bool delta)
+        {
+            return repo.SetLocationInventory(productId, locationId, n, delta);
+        }
         //public bool SetLocationInventory(int productId, int locationId, int n, bool delta)
         //{
         //    return repo.SetLocationInventory(productId, locationId, n, delta);

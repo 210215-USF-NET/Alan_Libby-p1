@@ -59,13 +59,28 @@ namespace StoreMVC.Controllers
         [HttpPost]
         public IActionResult AddToCartPost(UpdateInventoryViewModel vm)
         {
-            System.Diagnostics.Debug.WriteLine("Yeet");
             if (ModelState.IsValid)
             {
-                System.Diagnostics.Debug.WriteLine("Valid");
                 if (HttpContext.Session.GetString("UserName") == null)
                     return Redirect("/User/Login");
                 storeBL.AddItemToCart((int)HttpContext.Session.GetInt32("UserId"), vm.ProductId, vm.LocationId, vm.Quantity);
+                return RedirectToAction("Details", new { id = vm.ProductId });
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult Restock(UpdateInventoryViewModel vm)
+        {
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult RestockPost(UpdateInventoryViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                storeBL.SetLocationInventory(vm.ProductId, vm.LocationId, vm.Quantity, true);
                 return RedirectToAction("Details", new { id = vm.ProductId });
             }
             return RedirectToAction("Index");

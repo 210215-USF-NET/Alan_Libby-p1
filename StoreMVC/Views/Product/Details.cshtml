@@ -20,7 +20,10 @@
                 Available Quantity
             </th>
             <th></th>
-            <th></th>
+            @if (Context.Session.GetInt32("IsManager") != null && Context.Session.GetInt32("IsManager") != 0)
+            {
+                <th></th>
+            }
         </tr>
     </thead>
     <tbody>
@@ -35,7 +38,10 @@
                         @item.Quantity
                     </td>
                     <td>@Html.ActionLink("Add To Cart", "AddToCart", new { ProductId = Model.ProductId, LocationId = item.Location.LocationId, Quantity = 1 })</td>
-                    <td>[add to cart | restock]</td>
+                    @if (Context.Session.GetInt32("IsManager") != null && Context.Session.GetInt32("IsManager") != 0)
+                    { 
+                        <td>@Html.ActionLink("Restock", "Restock", new { ProductId = Model.ProductId, LocationId = item.Location.LocationId, Quantity = 1 })</td>
+                    }
                 </tr>
             </form>
         }
