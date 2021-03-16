@@ -15,10 +15,25 @@ namespace StoreMVC.Controllers
         {
             this.storeBL = storeBL;
         }
-        public IActionResult Index()
+        public IActionResult Index(string sortBy, int? sortDir)
         {
+            if (sortBy == null) sortBy = "Time";
+            if (sortDir == null) sortDir = 0;
+            ViewBag.SortBy = sortBy;
+            ViewBag.SortDir = sortDir;
             if (HttpContext.Session.GetString("UserName") == null) return Redirect("/User/Login");
-            return View(HttpContext.Session.GetInt32("IsManager") == 0 ? storeBL.GetUserOrders((int)HttpContext.Session.GetInt32("UserId")) : storeBL.GetAllOrders());
+            List<Order> orders = HttpContext.Session.GetInt32("IsManager") == 0 ? storeBL.GetUserOrders((int)HttpContext.Session.GetInt32("UserId")) : storeBL.GetAllOrders();
+            if (sortBy.Equals("Time"))
+                orders.Sort((o1, o2) => ((DateTime)o1.CheckoutTimestamp).CompareTo(o2.CheckoutTimestamp));
+            else if (sortBy.Equals("Price"))
+                orders.Sort((o1, o2) =>
+                {
+                    if (o1.TotalPrice == o2.TotalPrice) return 0;
+                    if (o1.TotalPrice > o2.TotalPrice) return -1;
+                    return 1;
+                });
+            if (sortDir == 1) orders.Reverse();
+            return View(orders);
         }
         public IActionResult Details(int id)
         {
