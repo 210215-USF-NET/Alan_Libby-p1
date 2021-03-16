@@ -65,9 +65,8 @@ namespace StoreMVC.Controllers
                 System.Diagnostics.Debug.WriteLine("Valid");
                 if (HttpContext.Session.GetString("UserName") == null)
                     return Redirect("/User/Login");
-                if (!storeBL.AddItemToCart((int)HttpContext.Session.GetInt32("UserId"), vm.ProductId, vm.LocationId, vm.Quantity))
-                    return NotFound();
-                return Redirect($"/Product/Details/{vm.ProductId}");
+                storeBL.AddItemToCart((int)HttpContext.Session.GetInt32("UserId"), vm.ProductId, vm.LocationId, vm.Quantity);
+                return RedirectToAction("Details", new { id = vm.ProductId });
             }
             return RedirectToAction("Index");
         }

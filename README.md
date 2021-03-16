@@ -24,7 +24,7 @@ Additional tables: Inventory, OrderItem
 ### Additional Requirements
 - [x] Exception Handling
 - [x] Input validation
-- [ ] Logging (useful ones)
+- [x] Logging (useful ones)
 - [ ] At least 20 unit tests:
   - [ ] DB methods should be tested
 - [x] Data should be persisted, (no data should be hard coded)

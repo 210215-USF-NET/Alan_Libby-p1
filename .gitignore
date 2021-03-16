@@ -1,3 +1,4 @@
+StoreMVC/log*.txt
 appsettings.json
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,dotnetcore,csharp,aspnetcore
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,dotnetcore,csharp,aspnetcore

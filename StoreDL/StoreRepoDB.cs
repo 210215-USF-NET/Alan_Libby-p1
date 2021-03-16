@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using StoreModels;
+using Serilog;
 
 namespace StoreDL
 {
@@ -54,6 +55,9 @@ namespace StoreDL
         }
         public bool AddUser(User user)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
             try
             {
                 ctx.Users.Add(user);
@@ -61,16 +65,17 @@ namespace StoreDL
             } 
             catch (Exception e)
             {
-                //TODO: Log failure
-                Console.WriteLine("ERROR: Failed to create a new user");
-                Console.WriteLine(e.StackTrace);
+                log.Error($"DATALAYER DATABASE AddUser() SaveChanges() exception: {e.Message}");
                 return false;
             }
-            // TODO: Log success
+            log.Information($"DATALAYER DATABASE Successfully added user (userId: {user.UserId})");
             return true;
         }
         public bool AddProduct(Product product)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
             try
             {
                 ctx.Products.Add(product);
@@ -78,16 +83,17 @@ namespace StoreDL
             }
             catch (Exception e)
             {
-                //TODO: Log failure
-                Console.WriteLine("ERROR: Failed to create a new product");
-                Console.WriteLine(e.StackTrace);
+                log.Error($"DATALAYER DATABASE AddProduct() SaveChanges() exception: {e.Message}");
                 return false;
             }
-            // TODO: Log success
+            log.Information($"DATALAYER DATABASE Successfully created Product (productId: {product.ProductId})");
             return true;
         }
         public bool SetLocationInventory(int productId, int locationId, int n, bool delta)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
             Inventory inv = ctx.Inventories.FirstOrDefault(inv => inv.ProductId == productId && inv.LocationId == locationId);
             if (inv == null)
             {
@@ -99,10 +105,7 @@ namespace StoreDL
             int oldQuantity = inv.Quantity;
             if (delta)
             {
-                System.Diagnostics.Debug.WriteLine($"Inventory before change: {inv.Quantity}");
-                //inv.Quantity += n;
                 inv.Quantity = inv.Quantity + n;
-                System.Diagnostics.Debug.WriteLine($"Inventory after change: {inv.Quantity}");
             }
             else
             {
@@ -111,7 +114,7 @@ namespace StoreDL
             if (inv.Quantity < 0)
             {
                 inv.Quantity = oldQuantity;
-                // TODO: Log failure
+                log.Error($"DATALAYER Tried to set quantity to less than zero");
                 return false;
             }
             try
@@ -120,16 +123,17 @@ namespace StoreDL
             }
             catch (Exception e)
             {
-                //TODO: Log failure
-                Console.WriteLine("ERROR: Failed to update the inventory");
-                Console.WriteLine(e.StackTrace);
+                log.Error($"DATALAYER DATABASE SetLocationInventory() SaveChanges() exception: {e.Message}");
                 return false;
             }
-            // TODO: Log success
+            log.Information($"DATALAYER DATABASE Successfully changed (productId {productId}) inventory to {inv.Quantity} at location (locationId {locationId})");
             return true;
         }
         public bool AddItemToCart(int userId, int productId, int locationId, int n, bool delta)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
             Order cart = ctx.Orders.Include(order => order.orderItems).FirstOrDefault(order => order.CheckoutTimestamp == null && order.UserId == userId);
             if (cart == null)
             {
@@ -141,7 +145,6 @@ namespace StoreDL
                 item = new OrderItem();
                 item.LocationId = locationId;
                 item.ProductId = productId;
-                //item.Quantity = 0;
             }
             if (delta)
             {
@@ -158,20 +161,21 @@ namespace StoreDL
             }
             catch (Exception e)
             {
-                //TODO: Log failure
-                Console.WriteLine("ERROR: Failed to add item to cart");
-                Console.WriteLine(e.StackTrace);
+                log.Error($"DATALAYER DATABASE AddItemToCart() SaveChanges() exception: {e.Message}");
                 return false;
             }
-            // TODO: Log success
+            log.Information($"DATALAYER DATABASE Successfully added (productId {productId}) to cart (userId {userId})");
             return true;
         }
         public bool CheckOut(int userId)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
             Order cart = ctx.Orders.FirstOrDefault(order => order.CheckoutTimestamp == null && order.UserId == userId);
             if (cart == null)
             {
-                // TODO: Log error
+                log.Error($"DATALAYER Tried CheckOut() without a cart (userId {userId})");
                 return false;
             }
             cart.CheckoutTimestamp = DateTime.Now;
@@ -181,16 +185,19 @@ namespace StoreDL
             }
             catch (Exception e)
             {
-                //TODO: Log failure
+                log.Error($"DATALAYER DATABASE CheckOut() SaveChanges() exception: {e.Message}");
                 Console.WriteLine("ERROR: Failed to check out");
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
-            // TODO: Log success
+            log.Information($"DATALAYER DATABASE Successfully checked out (userId {userId})");
             return true;
         }
         public bool createUser(User user)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
             try
             {
                 ctx.Users.Add(user);
@@ -198,15 +205,20 @@ namespace StoreDL
             }
             catch (Exception e)
             {
-                // TODO: Log failure
+                log.Error($"DATALAYER DATABASE CreateUser() SaveChanges() exception: {e.Message}");
                 Console.WriteLine("ERROR: Failed to create new user");
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
+            log.Information($"DATALAYER DATABASE Successfully created user (userId {user.UserId})");
             return true;
         }
         public Order createCart(int userId)
         {
+            using var log = new LoggerConfiguration()
+                .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day, shared: true)
+                .CreateLogger();
+            log.Information($"DATALAYER DATABASE Created cart for (userId {userId}) (Changes not saved until item is added");
             Order cart = new Order();
             cart.UserId = userId;
             cart.CheckoutTimestamp = null;
