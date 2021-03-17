@@ -47,7 +47,7 @@ namespace StoreDL
         }
         public List<Inventory> GetLocationsOfProduct(int productId, Func<Location, bool> where)
         {
-            return ctx.Inventories.Include("Product").Include("Location").Where(inv => inv.ProductId == productId && inv.Quantity > 0 && where(inv.Location)).Select(inv => inv).ToList();
+            return ctx.Inventories.Include("Product").Include("Location").ToList().Where(inv => inv.ProductId == productId && inv.Quantity > 0 && where(inv.Location)).Select(inv => inv).ToList();
         }
         public int GetLocationInventory(Product product, Location location)
         {

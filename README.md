@@ -25,8 +25,8 @@ Additional tables: Inventory, OrderItem
 - [x] Exception Handling
 - [x] Input validation
 - [x] Logging (useful ones)
-- [ ] At least 20 unit tests:
-  - [ ] DB methods should be tested
+- [x] At least 20 unit tests:
+  - [x] DB methods should be tested
 - [x] Data should be persisted, (no data should be hard coded)
   - [x] You should use PostgreSQL DB
   - [x] Use code first approach to establish a connection to your DB
