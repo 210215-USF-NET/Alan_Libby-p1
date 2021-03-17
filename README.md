@@ -30,9 +30,9 @@ Additional tables: Inventory, OrderItem
 - [x] Data should be persisted, (no data should be hard coded)
   - [x] You should use PostgreSQL DB
   - [x] Use code first approach to establish a connection to your DB
-- [ ] WebApp should be deployed using Azure App Services
-- [ ] A CI/CD pipeline should be established use Azure Pipelines
+- [x] WebApp should be deployed using Azure App Services
+- [x] A CI/CD pipeline should be established use Azure Pipelines
 - [x] Use ASP.NET MVC for the UI
 - [x] DB structure should be 3NF
   - [ ] Should have an ER Diagram
-- [ ] Code should have xml documentation
+- [x] Code should have xml documentation
