@@ -34,5 +34,5 @@ Additional tables: Inventory, OrderItem
 - [x] A CI/CD pipeline should be established use Azure Pipelines
 - [x] Use ASP.NET MVC for the UI
 - [x] DB structure should be 3NF
-  - [ ] Should have an ER Diagram
+  - [x] Should have an ER Diagram
 - [x] Code should have xml documentation
