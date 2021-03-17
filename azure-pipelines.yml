@@ -27,3 +27,10 @@ steps:
     command: 'publish'
     zipAfterPublish: true
     publishWebProjects: true
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(ff297f74-9e4d-4595-b6e8-6652d237fba8)'
+    appType: 'webApp'
+    WebAppName: 'p1storefront'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
